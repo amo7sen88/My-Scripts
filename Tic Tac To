@@ -1,0 +1,142 @@
+from IPython.display import clear_output
+
+def display_board(board):
+    clear_output()
+    print('{}  |  {}  |  {}'.format(board[7],board[8],board[9]))
+    print('{}   |  {}   |  {}'.format("","",""))
+    print("-"*15)
+    print('{}  |  {}  |  {}'.format(board[4],board[5],board[6]))
+    print('{}   |  {}   |  {}'.format("","",""))
+    print("-"*15)
+    print('{}   |  {}   |  {}'.format("","",""))
+    print('{}  |  {}  |  {}'.format(board[1],board[2],board[3]))
+    
+    
+    
+    def player_input():
+    marker = ""
+    while marker not in ("X","O"):
+        print('Please select X or O')
+        marker = input().upper()
+    
+    if marker == "X":
+        return ("X", "O")
+    elif marker == "O":
+        return ("O","X")
+
+
+def place_marker(board, marker, position):
+    board[position] = marker
+
+
+def win_check(board, mark):
+    if ( board[1] == mark and board[2] == mark and board[3] == mark or
+        board[4] == mark and board[5] == mark and board[6] == mark or
+        board[7] == mark and board[8] == mark and board[9] == mark or
+
+        board[1] == mark and board[4] == mark and board[5] == mark or
+        board[2] == mark and board[5] == mark and board[8] == mark or
+        board[3] == mark and board[6] == mark and board[9] == mark or
+
+        board[1] == mark and board[5] == mark and board[9] == mark or
+        board[3] == mark and board[5] == mark and board[7] == mark ):
+        return True
+    else:
+        return False
+        
+        
+def choose_first():
+    first = random.randint(0,1)
+    if first == 0:
+        #print("player 1 start")
+        return first
+    elif first == 1:
+        #print("player 2 start")
+        return first
+        
+        
+def space_check(board, position):
+    return board[position] == " "
+
+def full_board_check(board):
+    check = False
+    for i in range(1,10) :
+        if board[i] == " ":
+            check = False
+            break
+
+        else:
+            check =  True
+    return check
+    
+    
+def player_choice(board):
+    print("Please choose your next Position")
+    position = int(input())
+    return space_check(board,position)
+
+prg = True
+while prg:
+    
+    
+    print("Welcome to the game")
+    answer = input('Are you ready to play y or n: ')
+    if answer.lower() == 'y':
+        game = True
+    else:
+        game = False
+        break
+    player1, player2 = player_input()
+    first = choose_first()
+    board = [" "]*10
+    while game:
+        # player 1############################################################
+        if first == "player 1":
+            display_board(board)
+            print('player 1 play')
+            print(f"player {first}, Please choose Position from 1-9")
+            position = player_choice(board)
+            place_marker(board, player1, position)
+            display_board(board)
+                
+            if full_board_check(board) == True:
+                
+                display_board(board)
+                print("Game is Tie")
+                game = False
+
+            elif win_check(board,player1) == True:
+                
+                display_board(board)
+                print(f' {first} wins')
+                game = False
+
+            else:
+                first = "player 2"
+
+        # player 2 ################################################################       
+        elif first == "player 2":
+            display_board(board)
+            print('player 2 play')
+            print(f"player {first}, Please choose Position from 1-9")
+            position = position = player_choice(board)
+            place_marker(board, player2, position)
+            display_board(board)
+                
+            if full_board_check(board) == True:
+                
+                display_board(board)
+                print("Game is Tie")
+                game = False
+
+            elif win_check(board,player2) == True:
+                
+                display_board(board)
+                print(f' {first} wins')
+                game = False
+
+            else:
+                first = "player 1"
+        
+        
+        
