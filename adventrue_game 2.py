@@ -460,7 +460,7 @@ while game:
 
         
 
-    if level > 4:
+    if level > 3:
         finalone = exit_riddle()
         location(last_door)
         if finalone:
